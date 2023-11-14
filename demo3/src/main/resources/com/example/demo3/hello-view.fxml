@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="400.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Load Image" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Save Image" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Filter">
+                    <items>
+                        <MenuItem disable="true" mnemonicParsing="false" text="negative" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Pixelizer" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="identity" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="treshold" />
+                  <MenuItem disable="true" mnemonicParsing="false" text=" OldStyleFilter" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="BW filter" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Vinette" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Colorizer" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="About">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Created For PEPE by Tomáš Boba, Jiří Soldán, Michal Miška a Tomáš Hnízdil" />
+               </items></Menu>
+                <Menu mnemonicParsing="false" text="Exit" />
+            </menus>
+        </MenuBar>
+    </top>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="135.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Insert Image File" />
+            <Label />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Edit Matrix" />
+            <Label />
+            <ImageView fitHeight="105.0" fitWidth="105.0" pickOnBounds="true" />
+            <Label />
+            <Button mnemonicParsing="false" text="Apply Matrix Filter" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
