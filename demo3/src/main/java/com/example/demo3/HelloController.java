@@ -10,7 +10,6 @@ public class HelloController {
 
     @FXML
     protected void exitProgram() {
-        System.out.println("Hello");
         System.exit(0);
     }
 }
