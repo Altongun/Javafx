@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.HelloController">
+    <right>
+        <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin></Button>
+                <Button mnemonicParsing="false" prefWidth="150.0" text="Edit Matrix">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+                <ImageView fitHeight="105.0" fitWidth="105.0" pickOnBounds="true">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../../../Image/Black.png" />
+               </image></ImageView>
+                <Button disable="true" mnemonicParsing="false" prefWidth="150.0" text="Apply Matrix Filter">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+               <children>
+                  <Label disable="true" text="Label" visible="false" />
+               </children></Pane>
+            <Button mnemonicParsing="false" prefWidth="150.0" text="Generate Image">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <Button disable="true" mnemonicParsing="false" prefWidth="150.0" text="Restore Original Image">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <RadioButton disable="true" mnemonicParsing="false" prefHeight="18.0" prefWidth="108.0" text="Original Image">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></RadioButton>
+            <RadioButton disable="true" mnemonicParsing="false" text="Modified Image">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></RadioButton>
+            </children>
+        </VBox>
+    </right>
+   <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <menus>
+               <Menu mnemonicParsing="false" text="File">
+                   <items>
+                       <MenuItem mnemonicParsing="false" text="Load Image" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="Save Image" />
+                   </items>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Filter">
+                   <items>
+                       <MenuItem disable="true" mnemonicParsing="false" text="negative" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="Pixelizer" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="identity" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="treshold" />
+                       <MenuItem disable="true" mnemonicParsing="false" text=" OldStyleFilter" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="BW filter" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="Vinette" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="Colorizer" />
+                   </items>
+               </Menu>
+               <Menu fx:id="About" mnemonicParsing="false" text="About" />
+               <Menu fx:id="Exit" mnemonicParsing="false" onAction="#exitProgram" onShowing="#exitProgram" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
+               </items></Menu>
+           </menus>
+       </MenuBar>
+   </top>
+   <center>
+      <Pane prefHeight="198.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
+         </children></Pane>
+   </center>
+</BorderPane>
