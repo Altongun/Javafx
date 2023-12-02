@@ -49,7 +49,6 @@ public class HelloController {
         tilepane.setMaxWidth(300);
         tilepane.setBackground(new Background(new BackgroundFill(new Color(1, 1, 1, 1), new CornerRadii(10), new Insets(1))));
         popup.getContent().add(tilepane);
-        boolean[] boolList = {false, false, false, false};
         final KeyCombination keycombo =  new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
         popup.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
