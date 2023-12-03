@@ -9,7 +9,7 @@
     <right>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="175.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="InsertImgF" mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
+                <Button mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin></Button>
@@ -39,24 +39,18 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
-            <Button fx:id="restoreButton" disable="true" mnemonicParsing="false" prefWidth="150.0" text="Restore Original Image">
+            <Button disable="true" mnemonicParsing="false" prefWidth="150.0" text="Restore Original Image">
                <VBox.margin>
                   <Insets top="10.0" />
-               </VBox.margin>
-            </Button>
-            <RadioButton fx:id="originalRadio" disable="true" mnemonicParsing="false" prefHeight="18.0" prefWidth="108.0" text="Original Image">
+               </VBox.margin></Button>
+            <RadioButton disable="true" mnemonicParsing="false" prefHeight="18.0" prefWidth="108.0" text="Original Image">
                <VBox.margin>
                   <Insets top="10.0" />
-               </VBox.margin>
-               <toggleGroup>
-                  <ToggleGroup fx:id="originalOrModified" />
-               </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="moddedRadio" disable="true" mnemonicParsing="false" text="Modified Image" toggleGroup="$originalOrModified">
+               </VBox.margin></RadioButton>
+            <RadioButton disable="true" mnemonicParsing="false" text="Modified Image">
                <VBox.margin>
                   <Insets top="5.0" />
-               </VBox.margin>
-            </RadioButton>
+               </VBox.margin></RadioButton>
             </children>
         </VBox>
     </right>
@@ -65,8 +59,8 @@
            <menus>
                <Menu mnemonicParsing="false" text="File">
                    <items>
-                       <MenuItem mnemonicParsing="false" onAction="#loadPicture" text="Load Image" />
-                       <MenuItem fx:id="saveImg" disable="true" mnemonicParsing="false" text="Save Image" />
+                       <MenuItem mnemonicParsing="false" text="Load Image" />
+                       <MenuItem disable="true" mnemonicParsing="false" text="Save Image" />
                    </items>
                </Menu>
                <Menu mnemonicParsing="false" text="Filter">
@@ -81,23 +75,18 @@
                        <MenuItem disable="true" mnemonicParsing="false" text="Colorizer" />
                    </items>
                </Menu>
-               <Menu fx:id="About" mnemonicParsing="false" text="About">
-                   <items>
-                       <MenuItem mnemonicParsing="false" onAction="#aboutPopup" text="About" />
-                   </items>
-               </Menu>
+               <Menu fx:id="About" mnemonicParsing="false" text="About" />
                <Menu fx:id="Exit" mnemonicParsing="false" onAction="#exitProgram" onShowing="#exitProgram" text="Exit">
-                <items>
-                   <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
-                </items>
-               </Menu>
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
+               </items></Menu>
            </menus>
        </MenuBar>
    </top>
    <center>
       <Pane prefHeight="198.0" prefWidth="425.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="mainimage" fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
          </children></Pane>
    </center>
 </BorderPane>
