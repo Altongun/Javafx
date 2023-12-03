@@ -19,11 +19,16 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class HelloController {
     Popup popup = new Popup();
 
     @FXML
     private Button InsertImgF;
+    @FXML
+    private ImageView mainimage;
 
     @FXML
     protected void exitProgram() {
@@ -60,7 +65,107 @@ public class HelloController {
         });
         popup.show(InsertImgF.getScene().getWindow());
     }
+    @FXML
+    protected void loadPicture() {
+        String filePath = "";
+        File[] drives = File.listRoots();
+        File file = null;
+        if (drives.length == 1) {
+            filePath = drives[0].toString();
+            file = new File(filePath);
+        }
+        for (File drive : drives) {
+            System.out.println(drive);
+        }
+        File[] files = (drives.length == 1 ? file.listFiles() : drives);
+        ArrayList<Button> dirButtonList = new ArrayList<Button>();
+        TilePane tilepane = new TilePane();
+        tilepane.setMaxWidth(300);
+        tilepane.setBackground(new Background(new BackgroundFill(new Color(1, 1, 1, 1), new CornerRadii(10), new Insets(1))));
+        for (File f : files) {
+            String extension = findActualExtension(f.getName());
+            String[] allowedExtensions = {".png", ".jpg", ".bmp", ".webp"};
+            boolean correctExtension = false;
+            for (String compare : allowedExtensions) {
+                if (extension.equals(compare)) {
+                    correctExtension = true;
+                    break;
+                }
+            }
+            if (f.isDirectory() || correctExtension) {
+                Button thisIter = !f.getName().equals("") ? new Button(f.getName()) : new Button(f.toString());
+                String finalFilePath = f.getAbsolutePath();
+                EventHandler<ActionEvent> moveDir = new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent actionEvent) {
+                        System.out.println(f);
+                        loaderHelper(finalFilePath + "/" + f.getName(), tilepane);
+                    }
+                };
+                EventHandler<ActionEvent> endSelection = new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent actionEvent) {
+                        System.out.println("UwU");
+                    }
+                };
+                if (f.isDirectory()) {
+                    thisIter.setOnAction(moveDir);
+                } else {
+                    thisIter.setOnAction(endSelection);
+                }
+                tilepane.getChildren().add(thisIter);
+                dirButtonList.add(thisIter);
+            }
+        }
+        popup.getContent().add(tilepane);
+        popup.show(InsertImgF.getScene().getWindow());
+    }
+    protected String findActualExtension(String name){
+        int cutoff = name.indexOf(".");
+        if (cutoff > 0){
+            return findActualExtension(name.substring(cutoff));
+        }else{
+            return name;
+        }
+    }
+    @FXML
     protected void exitPopup(){
         popup.hide();
+    }
+    protected void loaderHelper(String filePath, TilePane tilepane){
+        File file = new File(filePath);
+        File[] files = file.listFiles();
+        ArrayList<Button> dirButtonList = new ArrayList<Button>();
+        tilepane.getChildren().clear();
+        for (File f : files){
+            String extension = findActualExtension(f.getName());
+            String[] allowedExtensions = {".png", ".jpg", ".bmp", ".webp"};
+            boolean correctExtension = false;
+            for (String compare : allowedExtensions){
+                if (extension.equals(compare)){
+                    correctExtension = true;
+                    break;
+                }
+            }
+            if (f.isDirectory() || correctExtension){
+                Button thisIter = new Button(f.getName());
+                EventHandler<ActionEvent> moveDir = new EventHandler<ActionEvent>(){
+                    public void handle(ActionEvent actionEvent) {
+                        loaderHelper(filePath + "/" + f.getName(), tilepane);
+                    }
+                };
+                EventHandler<ActionEvent> endSelection = new EventHandler<ActionEvent>(){
+                    public void handle(ActionEvent actionEvent) {
+                        mainimage.setImage(new Image(filePath + "/" + f.getName()));
+                        popup.hide();
+                    }
+                };
+                if(f.isDirectory() ){
+                    thisIter.setOnAction(moveDir);
+                }else{
+                    thisIter.setOnAction(endSelection);
+                }
+                tilepane.getChildren().add(thisIter);
+                dirButtonList.add(thisIter);
+            }
+        }
     }
 }

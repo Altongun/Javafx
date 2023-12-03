@@ -9,7 +9,7 @@
     <right>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="175.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="InsertImgF" mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
+                <Button mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin></Button>
@@ -59,7 +59,7 @@
            <menus>
                <Menu mnemonicParsing="false" text="File">
                    <items>
-                       <MenuItem mnemonicParsing="false" text="Load Image" onAction="#loadPicture"/>
+                       <MenuItem mnemonicParsing="false" text="Load Image" />
                        <MenuItem disable="true" mnemonicParsing="false" text="Save Image" />
                    </items>
                </Menu>
@@ -75,23 +75,18 @@
                        <MenuItem disable="true" mnemonicParsing="false" text="Colorizer" />
                    </items>
                </Menu>
-               <Menu fx:id="About" mnemonicParsing="false" text="About">
-                   <items>
-                       <MenuItem mnemonicParsing="false" onAction="#aboutPopup" text="About" />
-                   </items>
-               </Menu>
+               <Menu fx:id="About" mnemonicParsing="false" text="About" />
                <Menu fx:id="Exit" mnemonicParsing="false" onAction="#exitProgram" onShowing="#exitProgram" text="Exit">
-                <items>
-                   <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
-                </items>
-               </Menu>
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
+               </items></Menu>
            </menus>
        </MenuBar>
    </top>
    <center>
       <Pane prefHeight="198.0" prefWidth="425.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="mainimage" fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
          </children></Pane>
    </center>
 </BorderPane>

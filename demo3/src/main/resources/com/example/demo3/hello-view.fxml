@@ -59,7 +59,7 @@
            <menus>
                <Menu mnemonicParsing="false" text="File">
                    <items>
-                       <MenuItem mnemonicParsing="false" text="Load Image" />
+                       <MenuItem mnemonicParsing="false" text="Load Image" onAction="#loadPicture"/>
                        <MenuItem disable="true" mnemonicParsing="false" text="Save Image" />
                    </items>
                </Menu>
@@ -91,7 +91,7 @@
    <center>
       <Pane prefHeight="198.0" prefWidth="425.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="mainimage" fitHeight="178.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true" />
          </children></Pane>
    </center>
 </BorderPane>
