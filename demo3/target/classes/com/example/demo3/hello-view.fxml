@@ -66,19 +66,19 @@
                <Menu mnemonicParsing="false" text="File">
                    <items>
                        <MenuItem mnemonicParsing="false" onAction="#loadPicture" text="Load Image" />
-                       <MenuItem fx:id="saveImg" disable="true" mnemonicParsing="false" text="Save Image" />
+                       <MenuItem fx:id="saveImg" disable="true" onAction="#savePicture" mnemonicParsing="false" text="Save Image" />
                    </items>
                </Menu>
                <Menu mnemonicParsing="false" text="Filter">
                    <items>
-                       <MenuItem disable="true" mnemonicParsing="false" text="negative" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="Pixelizer" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="identity" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="treshold" />
-                       <MenuItem disable="true" mnemonicParsing="false" text=" OldStyleFilter" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="BW filter" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="Vinette" />
-                       <MenuItem disable="true" mnemonicParsing="false" text="Colorizer" />
+                       <MenuItem fx:id="filterNeg" disable="true" mnemonicParsing="false" text="negative" />
+                       <MenuItem fx:id="filterPix" disable="true" mnemonicParsing="false" text="Pixelizer" />
+                       <MenuItem fx:id="filterId" disable="true" mnemonicParsing="false" text="identity" />
+                       <MenuItem fx:id="filterTresh" disable="true" mnemonicParsing="false" text="treshold" />
+                       <MenuItem fx:id="filterOld" disable="true" mnemonicParsing="false" text=" OldStyleFilter" />
+                       <MenuItem fx:id="filterBW" disable="true" mnemonicParsing="false" text="BW filter" />
+                       <MenuItem fx:id="filterVin" disable="true" mnemonicParsing="false" text="Vinette" />
+                       <MenuItem fx:id="filterCol" disable="true" mnemonicParsing="false" text="Colorizer" />
                    </items>
                </Menu>
                <Menu fx:id="About" mnemonicParsing="false" text="About">
@@ -86,7 +86,7 @@
                        <MenuItem mnemonicParsing="false" onAction="#aboutPopup" text="About" />
                    </items>
                </Menu>
-               <Menu fx:id="Exit" mnemonicParsing="false" onAction="#exitProgram" onShowing="#exitProgram" text="Exit">
+               <Menu fx:id="Exit" mnemonicParsing="false" text="Exit">
                 <items>
                    <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
                 </items>

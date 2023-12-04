@@ -25,6 +25,22 @@ import javafx.stage.Popup;
 import java.io.File;
 
 public class HelloController {
+    @FXML
+    private MenuItem filterNeg;
+    @FXML
+    private MenuItem filterPix;
+    @FXML
+    private MenuItem filterId;
+    @FXML
+    private MenuItem filterTresh;
+    @FXML
+    private MenuItem filterOld;
+    @FXML
+    private MenuItem filterBW;
+    @FXML
+    private MenuItem filterVin;
+    @FXML
+    private MenuItem filterCol;
     Popup popup = new Popup();
 
     @FXML
@@ -80,10 +96,7 @@ public class HelloController {
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
                 /*new FileChooser.ExtensionFilter("All Images", "*.*"),*/
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png"),
-                new FileChooser.ExtensionFilter("BMP", "*.bmp"),
-                new FileChooser.ExtensionFilter("DIB", "*.dib")
+                new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
         );
         filechooser.setTitle("Select an image to load");
         File fiiile = filechooser.showOpenDialog(InsertImgF.getScene().getWindow());
@@ -93,5 +106,16 @@ public class HelloController {
         restoreButton.setDisable(false);
         originalRadio.setDisable(false);
         moddedRadio.setDisable(false);
+        filterNeg.setDisable(false);
+        filterBW.setDisable(false);
+        filterCol.setDisable(false);
+        filterId.setDisable(false);
+        filterOld.setDisable(false);
+        filterPix.setDisable(false);
+        filterTresh.setDisable(false);
+        filterVin.setDisable(false);
+    }
+    @FXML
+    protected void savePicture(){
     }
 }
