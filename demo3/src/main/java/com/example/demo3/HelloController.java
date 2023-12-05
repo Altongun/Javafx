@@ -10,6 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -22,6 +23,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageProducer;
 import java.io.File;
 
 public class HelloController {
@@ -100,22 +106,43 @@ public class HelloController {
         );
         filechooser.setTitle("Select an image to load");
         File fiiile = filechooser.showOpenDialog(InsertImgF.getScene().getWindow());
-        Image img = new Image(fiiile.getAbsolutePath());
-        mainimage.setImage(img);
-        saveImg.setDisable(false);
-        restoreButton.setDisable(false);
-        originalRadio.setDisable(false);
-        moddedRadio.setDisable(false);
-        filterNeg.setDisable(false);
-        filterBW.setDisable(false);
-        filterCol.setDisable(false);
-        filterId.setDisable(false);
-        filterOld.setDisable(false);
-        filterPix.setDisable(false);
-        filterTresh.setDisable(false);
-        filterVin.setDisable(false);
+        if(fiiile != null){
+            Image img = new Image(fiiile.getAbsolutePath());
+            mainimage.setImage(img);
+            saveImg.setDisable(false);
+            restoreButton.setDisable(false);
+            originalRadio.setDisable(false);
+            moddedRadio.setDisable(false);
+            filterNeg.setDisable(false);
+            filterBW.setDisable(false);
+            filterCol.setDisable(false);
+            filterId.setDisable(false);
+            filterOld.setDisable(false);
+            filterPix.setDisable(false);
+            filterTresh.setDisable(false);
+            filterVin.setDisable(false);
+        }
     }
     @FXML
-    protected void savePicture(){
+    protected void savePicture(){ // thx to Grumbajzik and ChatGPT for helping with this section <3
+        FileChooser fileChooser = new FileChooser();
+        File fiiiile = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
+        Image javafxImage = mainimage.getImage();
+        if (javafxImage != null) {
+            int width = (int) javafxImage.getWidth();
+            int height = (int) javafxImage.getHeight();
+
+            BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            PixelReader pixelReader = javafxImage.getPixelReader();
+
+            // Načtení pixelů a jejich nastavení v BufferedImage
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int argb = pixelReader.getArgb(x, y);
+                    bufferedImage.setRGB(x, y, argb);
+                }
+            }
+            try{ImageIO.write(bufferedImage, "PNG", fiiiile);}catch(Exception e){System.out.println(e);}
+        }
     }
 }
