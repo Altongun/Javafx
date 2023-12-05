@@ -107,7 +107,7 @@ public class HelloController {
         );
         filechooser.setTitle("Select an image to load");
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
-        fileOptional.ifPresent(
+        fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
                     Image image = new Image(file.toURI().toString());
                     mainimage.setImage(image);
@@ -126,7 +126,7 @@ public class HelloController {
                 });
     }
     @FXML
-    protected void savePicture(){ // thx to Grumbajzik and ChatGPT for helping with this section <3
+    protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
         FileChooser fileChooser = new FileChooser();
         File fiiiile = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
         Image javafxImage = mainimage.getImage();
