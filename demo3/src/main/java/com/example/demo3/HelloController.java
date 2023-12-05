@@ -29,6 +29,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageProducer;
 import java.io.File;
+import java.util.Optional;
 
 public class HelloController {
     @FXML
@@ -105,23 +106,24 @@ public class HelloController {
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
         );
         filechooser.setTitle("Select an image to load");
-        File fiiile = filechooser.showOpenDialog(InsertImgF.getScene().getWindow());
-        if(fiiile != null){
-            Image img = new Image(fiiile.getAbsolutePath());
-            mainimage.setImage(img);
-            saveImg.setDisable(false);
-            restoreButton.setDisable(false);
-            originalRadio.setDisable(false);
-            moddedRadio.setDisable(false);
-            filterNeg.setDisable(false);
-            filterBW.setDisable(false);
-            filterCol.setDisable(false);
-            filterId.setDisable(false);
-            filterOld.setDisable(false);
-            filterPix.setDisable(false);
-            filterTresh.setDisable(false);
-            filterVin.setDisable(false);
-        }
+        Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
+        fileOptional.ifPresent(
+                file -> {
+                    Image image = new Image(file.toURI().toString());
+                    mainimage.setImage(image);
+                    saveImg.setDisable(false);
+                    restoreButton.setDisable(false);
+                    originalRadio.setDisable(false);
+                    moddedRadio.setDisable(false);
+                    filterNeg.setDisable(false);
+                    filterBW.setDisable(false);
+                    filterCol.setDisable(false);
+                    filterId.setDisable(false);
+                    filterOld.setDisable(false);
+                    filterPix.setDisable(false);
+                    filterTresh.setDisable(false);
+                    filterVin.setDisable(false);
+                });
     }
     @FXML
     protected void savePicture(){ // thx to Grumbajzik and ChatGPT for helping with this section <3
