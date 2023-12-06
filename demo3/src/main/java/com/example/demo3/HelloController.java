@@ -127,13 +127,12 @@ public class HelloController {
                 });
     }
     @FXML
-    protected void savePicture(){
+    protected void savePicture() {
         FileChooser fileChooser = new FileChooser();
-        //TODO: pro příště normálnější pojmenování proměných například filePath
-        File fiiiile = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
-        Image javafxImage = mainimage.getImage();
-        //TODO: předělat řádek 135 na Optional
-        if (javafxImage != null) {
+        // TODO: pro příště normálnější pojmenování proměných například filePath
+        File filePath = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
+
+        Optional.ofNullable(mainimage.getImage()).ifPresent(javafxImage -> {
             int width = (int) javafxImage.getWidth();
             int height = (int) javafxImage.getHeight();
 
@@ -146,7 +145,14 @@ public class HelloController {
                     bufferedImage.setRGB(x, y, argb);
                 }
             }
-            try{ImageIO.write(bufferedImage, "PNG", fiiiile);}catch(Exception e){System.out.println(e);}
-        }
+
+            try {
+                ImageIO.write(bufferedImage, "PNG", filePath);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
     }
+
+
 }
