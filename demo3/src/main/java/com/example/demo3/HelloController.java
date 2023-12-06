@@ -67,6 +67,8 @@ public class HelloController {
     protected void exitProgram() {
         System.exit(0);
     }
+
+    //TODO: chtělo by udělat pravděpodobně nový fxml s tím co má být v about, aby se to jako nové okno a né widget
     @FXML
     protected void aboutPopup() {
         Label label = new Label("Paint app v1.0\nby: Grumbajzik, Jurajs_, Alton, ThatMeow\nFor PEPE, with love <3");
@@ -128,8 +130,10 @@ public class HelloController {
     @FXML
     protected void savePicture(){ // thx to Grumbajzik and ChatGPT for helping with this section <3
         FileChooser fileChooser = new FileChooser();
+        //TODO: pro příště normálnější pojmenování proměných například filePath
         File fiiiile = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
         Image javafxImage = mainimage.getImage();
+        //TODO: předělat řádek 135 na Optional
         if (javafxImage != null) {
             int width = (int) javafxImage.getWidth();
             int height = (int) javafxImage.getHeight();
@@ -137,7 +141,6 @@ public class HelloController {
             BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             PixelReader pixelReader = javafxImage.getPixelReader();
 
-            // Načtení pixelů a jejich nastavení v BufferedImage
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int argb = pixelReader.getArgb(x, y);
