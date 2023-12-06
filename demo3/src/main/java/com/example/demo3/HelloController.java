@@ -104,7 +104,6 @@ public class HelloController {
     protected void loadPicture(){
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
-                /*new FileChooser.ExtensionFilter("All Images", "*.*"),*/
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
         );
         filechooser.setTitle("Select an image to load");
@@ -128,7 +127,7 @@ public class HelloController {
                 });
     }
     @FXML
-    protected void savePicture(){ // thx to Grumbajzik and ChatGPT for helping with this section <3
+    protected void savePicture(){
         FileChooser fileChooser = new FileChooser();
         //TODO: pro příště normálnější pojmenování proměných například filePath
         File fiiiile = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
