@@ -9,7 +9,7 @@
     <right>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="175.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="InsertImgF" mnemonicParsing="false" prefWidth="150.0" text="Insert Image File">
+                <Button fx:id="InsertImgF" mnemonicParsing="false" onAction="#loadPicture" prefWidth="150.0" text="Insert Image File">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin></Button>
@@ -66,7 +66,7 @@
                <Menu mnemonicParsing="false" text="File">
                    <items>
                        <MenuItem mnemonicParsing="false" onAction="#loadPicture" text="Load Image" />
-                       <MenuItem fx:id="saveImg" disable="true" onAction="#savePicture" mnemonicParsing="false" text="Save Image" />
+                       <MenuItem fx:id="saveImg" disable="true" mnemonicParsing="false" onAction="#savePicture" text="Save Image" />
                    </items>
                </Menu>
                <Menu mnemonicParsing="false" text="Filter">
