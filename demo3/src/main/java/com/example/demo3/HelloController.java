@@ -108,7 +108,7 @@ public class HelloController {
         );
         filechooser.setTitle("Select an image to load");
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
-        fileOptional.ifPresent(
+        fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
                     Image image = new Image(file.toURI().toString());
                     mainimage.setImage(image);
@@ -127,7 +127,8 @@ public class HelloController {
                 });
     }
     @FXML
-    protected void savePicture() {
+    protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
+
         FileChooser fileChooser = new FileChooser();
         // TODO: pro příště normálnější pojmenování proměných například filePath
         File filePath = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
@@ -154,5 +155,6 @@ public class HelloController {
         });
     }
 
-
 }
+}
+
