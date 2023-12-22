@@ -24,10 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.util.Optional;
 
@@ -126,6 +123,15 @@ public class HelloController {
                     filterTresh.setDisable(false);
                     filterVin.setDisable(false);
                 });
+        mainimage.setPreserveRatio(true);
+        mainimage.setFitHeight(InsertImgF.getScene().getHeight()/2.0f);
+        mainimage.setFitWidth(InsertImgF.getScene().getWidth()/2.0f); //první setup výšky a šířky
+        InsertImgF.getScene().heightProperty().addListener((obs, oldVal, newVal) -> {
+            mainimage.setFitHeight(newVal.floatValue()/2.0f);
+        });
+        InsertImgF.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
+            mainimage.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
+        });
     }
     @FXML
     protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
