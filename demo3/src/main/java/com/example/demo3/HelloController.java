@@ -99,7 +99,6 @@ public class HelloController {
     }
     @FXML
     protected void loadPicture(){
-        //TODO: zvětšit nahraný obrázek (v aplikaci je moc malý) a chce to aby se zvětšoval zároveň s oknem - Hnízdil
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
