@@ -68,7 +68,7 @@ public class HelloController {
         System.exit(0);
     }
 
-    //TODO: chtělo by udělat pravděpodobně nový fxml s tím co má být v about, aby se to jako nové okno a né widget
+    //TODO: chtělo by udělat pravděpodobně nový fxml s tím co má být v about, aby se to otevřelo jako nové okno a né widget - Hnízdil
     @FXML
     protected void aboutPopup() {
         Label label = new Label("Paint app v1.0\nby: Grumbajzik, Jurajs_, Alton, ThatMeow\nFor PEPE, with love <3");
@@ -102,6 +102,7 @@ public class HelloController {
     }
     @FXML
     protected void loadPicture(){
+        //TODO: zvětšit nahraný obrázek (v aplikaci je moc malý) a chce to aby se zvětšoval zároveň s oknem - Hnízdil
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
@@ -128,9 +129,7 @@ public class HelloController {
     }
     @FXML
     protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
-
         FileChooser fileChooser = new FileChooser();
-        // TODO: pro příště normálnější pojmenování proměných například filePath
         File filePath = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
 
         Optional.ofNullable(mainimage.getImage()).ifPresent(javafxImage -> {
