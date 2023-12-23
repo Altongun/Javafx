@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.stage.FileChooser;
@@ -18,6 +17,7 @@ import java.io.File;
 import java.util.Optional;
 
 public class HelloController {
+    ImageWorker imageww;
     @FXML
     private MenuItem filterNeg;
     @FXML
@@ -105,8 +105,7 @@ public class HelloController {
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
         fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
-                    Image image = new Image(file.toURI().toString());
-                    mainimage.setImage(image);
+                    this.imageww = new ImageWorker(file, mainimage);
                     saveImg.setDisable(false);
                     restoreButton.setDisable(false);
                     originalRadio.setDisable(false);
@@ -149,8 +148,7 @@ public class HelloController {
 
             try {
                 ImageIO.write(bufferedImage, "PNG", filePath);
-            } catch (Exception e) {
-                System.out.println(e);
+            } catch (Exception ignored) {
             }
         });
     }
