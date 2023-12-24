@@ -1,37 +1,23 @@
 package com.example.demo3;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.util.Optional;
 
 public class HelloController {
+    ImageWorker imageww;
     @FXML
     private MenuItem filterNeg;
     @FXML
@@ -48,7 +34,6 @@ public class HelloController {
     private MenuItem filterVin;
     @FXML
     private MenuItem filterCol;
-    Popup popup = new Popup();
 
     @FXML
     private Button InsertImgF;
@@ -67,9 +52,19 @@ public class HelloController {
     protected void exitProgram() {
         System.exit(0);
     }
-
-    //TODO: chtělo by udělat pravděpodobně nový fxml s tím co má být v about, aby se to otevřelo jako nové okno a né widget - Hnízdil
     @FXML
+    protected void aboutPopup() {
+        FXMLLoader aboutScreenFXML = new FXMLLoader(HelloApplication.class.getResource("about-view.fxml"));
+        Stage popupStage = new Stage();
+        popupStage.setTitle("About");
+        try{
+            popupStage.setScene(new Scene(aboutScreenFXML.load(), 300, 150));
+        }catch (Exception ignored){
+
+        }
+        popupStage.show();
+    }
+    /*@FXML
     protected void aboutPopup() {
         Label label = new Label("Paint app v1.0\nby: Grumbajzik, Jurajs_, Alton, ThatMeow\nFor PEPE, with love <3");
         Button button = new Button("Close");
@@ -99,10 +94,9 @@ public class HelloController {
                 }
         });
         popup.show(InsertImgF.getScene().getWindow());
-    }
+    }*/
     @FXML
     protected void loadPicture(){
-        //TODO: zvětšit nahraný obrázek (v aplikaci je moc malý) a chce to aby se zvětšoval zároveň s oknem - Hnízdil
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
@@ -111,8 +105,7 @@ public class HelloController {
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
         fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
-                    Image image = new Image(file.toURI().toString());
-                    mainimage.setImage(image);
+                    this.imageww = new ImageWorker(file, mainimage);
                     saveImg.setDisable(false);
                     restoreButton.setDisable(false);
                     originalRadio.setDisable(false);
@@ -126,6 +119,13 @@ public class HelloController {
                     filterTresh.setDisable(false);
                     filterVin.setDisable(false);
                 });
+        mainimage.setPreserveRatio(true);
+        mainimage.setFitHeight(InsertImgF.getScene().getHeight()/2.0f);
+        mainimage.setFitWidth(InsertImgF.getScene().getWidth()/2.0f); //první setup výšky a šířky
+        InsertImgF.getScene().heightProperty().addListener((obs, oldVal, newVal) -> mainimage.setFitHeight(newVal.floatValue()/2.0f));
+        InsertImgF.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
+            mainimage.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
+        });
     }
     @FXML
     protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
@@ -148,8 +148,7 @@ public class HelloController {
 
             try {
                 ImageIO.write(bufferedImage, "PNG", filePath);
-            } catch (Exception e) {
-                System.out.println(e);
+            } catch (Exception ignored) {
             }
         });
     }
