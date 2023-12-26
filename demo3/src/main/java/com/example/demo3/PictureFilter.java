@@ -4,5 +4,4 @@ public class PictureFilter {
 
     //TODO: Filtry: Michal Myška
     // RGB - Michal Myška,
-    // černobílá - Michal Myška
 }
