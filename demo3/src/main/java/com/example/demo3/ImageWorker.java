@@ -109,20 +109,88 @@ public class ImageWorker {
     }
 
     private void blackAndW() {
-        for (int x = 0; x < this.currentIt.getWidth(); x++) {
-            for (int y = 0; y < this.currentIt.getHeight(); y++) {
-                int currentRGB = this.currentIt.getRGB(x,y);
-                int currentB = (int)Math.floor(currentRGB/65536f);
-                int restB = currentRGB - (currentB*65536);
-                int currentG = (int)Math.floor(restB/256f);
-                int currentR = restB - (currentG*256);
-                int alpha = (int) Math.floor((currentR+currentG+currentB)/3f);
-                this.currentIt.setRGB(x, y, alpha*65536 + alpha*256 + alpha);
+        if (this.currentImg) {
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                }
+            }
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    double currentRGB = this.currentIt.getRGB(x, y);
+                    double currentB = Math.floor(currentRGB / 65536f);
+                    double restB = currentRGB - (currentB * 65536);
+                    double currentG = Math.floor(restB / 256f);
+                    double currentR = restB - (currentG * 256);
+                    double alpha;
+                    if (currentR > currentG && currentR > currentB){
+                        alpha = currentR;
+                    }else if (currentG > currentR && currentG > currentB){
+                        alpha = currentG;
+                    }else{
+                        alpha = currentB;
+                    }
+                    this.currentIt.setRGB(x, y, (int) (alpha * 65536 + alpha * 256 + alpha));
+                }
+            }
+        } else {
+            for (int x = 0; x < this.stepback.getWidth(); x++) {
+                for (int y = 0; y < this.stepback.getHeight(); y++) {
+                    double currentRGB = this.stepback.getRGB(x, y);
+                    double currentB = Math.floor(currentRGB / 65536f);
+                    double restB = currentRGB - (currentB * 65536);
+                    double currentG = Math.floor(restB / 256f);
+                    double currentR = restB - (currentG * 256);
+                    double alpha;
+                    if (currentR > currentG && currentR > currentB){
+                        alpha = currentR;
+                    }else if (currentG > currentR && currentG > currentB){
+                        alpha = currentG;
+                    }else{
+                        alpha = currentB;
+                    }
+                    this.currentIt.setRGB(x, y, (int) (alpha * 65536 + alpha * 256 + alpha));
+                }
             }
         }
         this.imgView.setImage(toFXImage(this.currentIt));
         this.modifiedRadio.fire();
     }
+
+    /*private void blackAndW() {
+            if (this.currentImg) {
+                for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                    for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                        this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                    }
+                }
+                for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                    for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                        double currentRGB = this.currentIt.getRGB(x, y);
+                        double currentB = Math.floor(currentRGB / 65536f);
+                        double restB = currentRGB - (currentB * 65536);
+                        double currentG = Math.floor(restB / 256f);
+                        double currentR = restB - (currentG * 256);
+                        int alpha = (int) Math.floor((currentR + currentG + currentB) / 3f);
+                        this.currentIt.setRGB(x, y, alpha * 65536 + alpha * 256 + alpha);
+                    }
+                }
+            } else {
+                for (int x = 0; x < this.stepback.getWidth(); x++) {
+                    for (int y = 0; y < this.stepback.getHeight(); y++) {
+                        double currentRGB = this.stepback.getRGB(x, y);
+                        double currentB = Math.floor(currentRGB / 65536f);
+                        double restB = currentRGB - (currentB * 65536);
+                        double currentG = Math.floor(restB / 256f);
+                        double currentR = restB - (currentG * 256);
+                        int alpha = (int) Math.floor((currentR + currentG + currentB) / 3f);
+                        this.currentIt.setRGB(x, y, alpha * 65536 + alpha * 256 + alpha);
+                    }
+                }
+            }
+        this.imgView.setImage(toFXImage(this.currentIt));
+        this.modifiedRadio.fire();
+    }*/
 
     private void oldStyle() {
 
