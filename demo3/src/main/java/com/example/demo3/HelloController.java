@@ -46,22 +46,7 @@ public class HelloController {
     @FXML
     private RadioButton moddedRadio;
 
-    @FXML
-    protected void exitProgram() {
-        System.exit(0);
-    }
-    @FXML
-    protected void aboutPopup() {
-        FXMLLoader aboutScreenFXML = new FXMLLoader(HelloApplication.class.getResource("about-view.fxml"));
-        Stage popupStage = new Stage();
-        popupStage.setTitle("About");
-        try{
-            popupStage.setScene(new Scene(aboutScreenFXML.load(), 300, 150));
-        }catch (Exception ignored){
 
-        }
-        popupStage.show();
-    }
     @FXML
     protected void generatePicture(){
         this.imageww = new ImageWorker(mainimage);
@@ -129,6 +114,63 @@ public class HelloController {
         try {
             ImageIO.write(imageww.currentIt, "PNG", filePath);
         } catch (Exception ignored) {}
+    }
+
+
+
+    @FXML
+    protected void negativeFilter(){
+        imageww.filterHandler(0);
+    }
+    @FXML
+    protected void pixelizer(){
+        imageww.filterHandler(1);
+    }
+    @FXML
+    protected void identity(){
+        imageww.filterHandler(2);
+    }
+    @FXML
+    protected void treshold(){
+        imageww.filterHandler(3);
+    }
+    @FXML
+    protected void oldStyle(){
+        imageww.filterHandler(4);
+    }
+    @FXML
+    protected void blackAndWhite(){
+        imageww.filterHandler(5);
+    }
+    @FXML
+    protected void vinette(){
+        imageww.filterHandler(6);
+    }
+    @FXML
+    protected void colorizer(){
+        imageww.filterHandler(7);
+    }
+
+
+
+    @FXML
+    protected void aboutPopup() {
+        FXMLLoader aboutScreenFXML = new FXMLLoader(HelloApplication.class.getResource("about-view.fxml"));
+        Stage popupStage = new Stage();
+        popupStage.setTitle("About");
+        try{
+            popupStage.setScene(new Scene(aboutScreenFXML.load(), 300, 150));
+        }catch (Exception ignored){
+
+        }
+        popupStage.show();
+    }
+
+
+
+    @FXML
+    protected void exitProgram() {
+        System.exit(0);
     }
 }
 

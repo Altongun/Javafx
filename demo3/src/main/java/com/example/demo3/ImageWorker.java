@@ -9,10 +9,14 @@ import java.io.File;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+
+
 public class ImageWorker {
     BufferedImage currentIt;
     BufferedImage stepback;
     ImageView imgView;
+
+
 
     public ImageWorker(File origin, ImageView mainimgview){
         try {
@@ -44,7 +48,6 @@ public class ImageWorker {
             this.imgView.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
         });
     }
-
     private BufferedImage genImg() {
         BufferedImage blankCanvas = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < blankCanvas.getWidth(); x++) {
@@ -60,6 +63,55 @@ public class ImageWorker {
         }
         return blankCanvas;
     }
+
+
+
+    public void filterHandler(int filterType){
+        switch (filterType) {
+            case 0 -> negative();
+            case 1 -> pixelizer();
+            case 2 -> identity();
+            case 3 -> treshold();
+            case 4 -> oldStyle();
+            case 5 -> blackAndW();
+            case 6 -> vinette();
+            case 7 -> colorizer();
+            default -> {
+            }
+        }
+
+    }
+
+    private void colorizer() {
+    }
+
+    private void vinette() {
+
+    }
+
+    private void blackAndW() {
+
+    }
+
+    private void oldStyle() {
+
+    }
+
+    private void treshold() {
+
+    }
+
+
+    private void negative() {
+    }
+
+    private void pixelizer() {
+    }
+
+    private void identity() {
+    }
+
+
 
     private Image toFXImage() {
         WritableImage wr = null;

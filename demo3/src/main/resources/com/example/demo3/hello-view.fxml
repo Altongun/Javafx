@@ -66,14 +66,14 @@
                <MenuItem fx:id="saveImg" disable="true" mnemonicParsing="false" onAction="#savePicture" text="Save Image" />
            </Menu>
            <Menu mnemonicParsing="false" text="Filter">
-               <MenuItem fx:id="filterNeg" disable="true" mnemonicParsing="false" text="negative" />
-               <MenuItem fx:id="filterPix" disable="true" mnemonicParsing="false" text="Pixelizer" />
-               <MenuItem fx:id="filterId" disable="true" mnemonicParsing="false" text="identity" />
-               <MenuItem fx:id="filterTresh" disable="true" mnemonicParsing="false" text="treshold" />
-               <MenuItem fx:id="filterOld" disable="true" mnemonicParsing="false" text=" OldStyleFilter" />
-               <MenuItem fx:id="filterBW" disable="true" mnemonicParsing="false" text="BW filter" />
-               <MenuItem fx:id="filterVin" disable="true" mnemonicParsing="false" text="Vinette" />
-               <MenuItem fx:id="filterCol" disable="true" mnemonicParsing="false" text="Colorizer" />
+               <MenuItem fx:id="filterNeg" disable="true" mnemonicParsing="false" onAction="#negativeFilter" text="negative" />
+               <MenuItem fx:id="filterPix" disable="true" mnemonicParsing="false" onAction="#pixelizer" text="Pixelizer" />
+               <MenuItem fx:id="filterId" disable="true" mnemonicParsing="false" onAction="#identity" text="identity" />
+               <MenuItem fx:id="filterTresh" disable="true" mnemonicParsing="false" onAction="#treshold" text="treshold" />
+               <MenuItem fx:id="filterOld" disable="true" mnemonicParsing="false" onAction="#oldStyle" text=" OldStyleFilter" />
+               <MenuItem fx:id="filterBW" disable="true" mnemonicParsing="false" onAction="#blackAndWhite" text="BW filter" />
+               <MenuItem fx:id="filterVin" disable="true" mnemonicParsing="false" onAction="#vinette" text="Vinette" />
+               <MenuItem fx:id="filterCol" disable="true" mnemonicParsing="false" onAction="#colorizer" text="Colorizer" />
            </Menu>
            <Menu mnemonicParsing="false" text="About">
                <MenuItem mnemonicParsing="false" onAction="#aboutPopup" text="About" />
