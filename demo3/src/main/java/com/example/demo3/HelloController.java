@@ -49,39 +49,20 @@ public class HelloController {
 
     @FXML
     protected void generatePicture(){
-        this.imageww = new ImageWorker(mainimage);
+        this.imageww = new ImageWorker(mainimage, originalRadio, moddedRadio);
+        saveImg.setDisable(false);
+        restoreButton.setDisable(false);
+        originalRadio.setDisable(false);
+        moddedRadio.setDisable(false);
+        filterNeg.setDisable(false);
+        filterBW.setDisable(false);
+        filterCol.setDisable(false);
+        filterId.setDisable(false);
+        filterOld.setDisable(false);
+        filterPix.setDisable(false);
+        filterTresh.setDisable(false);
+        filterVin.setDisable(false);
     }
-    /*@FXML
-    protected void aboutPopup() {
-        Label label = new Label("Paint app v1.0\nby: Grumbajzik, Jurajs_, Alton, ThatMeow\nFor PEPE, with love <3");
-        Button button = new Button("Close");
-        Image eastereggimg = new Image("http://media.tenor.com/y8R_Sz09brMAAAAi/faruzan-genshin-impact.gif");
-        ImageView easteregg = new ImageView(eastereggimg);
-        TilePane tilepane = new TilePane();
-        EventHandler<ActionEvent> closeIt = new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent actionEvent) {
-                popup.hide();
-            }
-        };
-        button.setOnAction(closeIt);
-        tilepane.getChildren().add(label);
-        tilepane.getChildren().add(button);
-        tilepane.getChildren().add(easteregg);
-        easteregg.setVisible(false);
-        tilepane.setMaxWidth(300);
-        tilepane.setBackground(new Background(new BackgroundFill(new Color(1, 1, 1, 1), new CornerRadii(10), new Insets(1))));
-        popup.getContent().add(tilepane);
-        final KeyCombination keycombo =  new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
-        popup.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                    if(keycombo.match(event)){
-                        easteregg.setVisible(true);
-                    }
-                }
-        });
-        popup.show(InsertImgF.getScene().getWindow());
-    }*/
     @FXML
     protected void loadPicture(){
         FileChooser filechooser = new FileChooser();
@@ -92,7 +73,7 @@ public class HelloController {
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
         fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
-                    this.imageww = new ImageWorker(file, mainimage);
+                    this.imageww = new ImageWorker(file, mainimage, originalRadio, moddedRadio);
                     saveImg.setDisable(false);
                     restoreButton.setDisable(false);
                     originalRadio.setDisable(false);
@@ -171,6 +152,17 @@ public class HelloController {
     @FXML
     protected void exitProgram() {
         System.exit(0);
+    }
+
+
+
+    @FXML
+    protected void showStepback(){
+        imageww.whatToShow(false);
+    }
+    @FXML
+    protected void showCurrent(){
+        imageww.whatToShow(true);
     }
 }
 

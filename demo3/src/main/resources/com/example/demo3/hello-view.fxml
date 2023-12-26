@@ -44,7 +44,7 @@
                     <Insets top="10.0" />
                 </VBox.margin>
             </Button>
-            <RadioButton fx:id="originalRadio" disable="true" mnemonicParsing="false" prefHeight="18.0" prefWidth="108.0" selected="true" text="Original Image">
+            <RadioButton fx:id="originalRadio" disable="true" mnemonicParsing="false" onAction="#showStepback" prefHeight="18.0" prefWidth="108.0" selected="true" text="Original Image">
                 <VBox.margin>
                     <Insets top="10.0" />
                 </VBox.margin>
@@ -52,7 +52,7 @@
                     <ToggleGroup fx:id="originalOrModified" />
                 </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="moddedRadio" disable="true" mnemonicParsing="false" text="Modified Image" toggleGroup="$originalOrModified">
+            <RadioButton fx:id="moddedRadio" disable="true" mnemonicParsing="false" onAction="#showCurrent" text="Modified Image" toggleGroup="$originalOrModified">
                 <VBox.margin>
                     <Insets top="5.0" />
                 </VBox.margin>
