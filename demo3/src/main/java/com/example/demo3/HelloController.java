@@ -64,6 +64,10 @@ public class HelloController {
         }
         popupStage.show();
     }
+    @FXML
+    protected void generatePicture(){
+        this.imageww = new ImageWorker(mainimage);
+    }
     /*@FXML
     protected void aboutPopup() {
         Label label = new Label("Paint app v1.0\nby: Grumbajzik, Jurajs_, Alton, ThatMeow\nFor PEPE, with love <3");
@@ -119,13 +123,6 @@ public class HelloController {
                     filterTresh.setDisable(false);
                     filterVin.setDisable(false);
                 });
-        mainimage.setPreserveRatio(true);
-        mainimage.setFitHeight(InsertImgF.getScene().getHeight()/2.0f);
-        mainimage.setFitWidth(InsertImgF.getScene().getWidth()/2.0f); //první setup výšky a šířky
-        InsertImgF.getScene().heightProperty().addListener((obs, oldVal, newVal) -> mainimage.setFitHeight(newVal.floatValue()/2.0f));
-        InsertImgF.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
-            mainimage.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
-        });
     }
     @FXML
     protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
