@@ -7,12 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 
@@ -128,28 +126,10 @@ public class HelloController {
     protected void savePicture(){ // thx to Grumbajzik for helping with this section <3
         FileChooser fileChooser = new FileChooser();
         File filePath = fileChooser.showSaveDialog(InsertImgF.getScene().getWindow());
-
-        Optional.ofNullable(mainimage.getImage()).ifPresent(javafxImage -> {
-            int width = (int) javafxImage.getWidth();
-            int height = (int) javafxImage.getHeight();
-
-            BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            PixelReader pixelReader = javafxImage.getPixelReader();
-
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int argb = pixelReader.getArgb(x, y);
-                    bufferedImage.setRGB(x, y, argb);
-                }
-            }
-
-            try {
-                ImageIO.write(bufferedImage, "PNG", filePath);
-            } catch (Exception ignored) {
-            }
-        });
+        try {
+            ImageIO.write(imageww.currentIt, "PNG", filePath);
+        } catch (Exception ignored) {}
     }
-
 }
 
 
