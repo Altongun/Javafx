@@ -164,7 +164,6 @@ public class ImageWorker {
 
     }
 
-
     private void negative() {
         if(this.currentImg) {
             for (int x = 0; x < this.currentIt.getWidth(); x++) {
@@ -174,13 +173,17 @@ public class ImageWorker {
             }
             for (int x = 0; x < this.currentIt.getWidth(); x++) {
                 for (int y = 0; y < this.currentIt.getHeight(); y++) {
-                    this.currentIt.setRGB(x, y, (255 - this.currentIt.getRGB(x, y)));
+                    Color originColor = new Color(this.currentIt.getRGB(x,y));
+                    Color replacementColor = new Color(255 - originColor.getRed(), 255 - originColor.getGreen(), 255 - originColor.getBlue());
+                    this.currentIt.setRGB(x, y, replacementColor.getRGB());
                 }
             }
         }else{
             for (int x = 0; x < this.stepback.getWidth(); x++) {
                 for (int y = 0; y < this.stepback.getHeight(); y++) {
-                    this.currentIt.setRGB(x, y, (255 - this.stepback.getRGB(x, y)));
+                    Color originColor = new Color(this.stepback.getRGB(x,y));
+                    Color replacementColor = new Color(255 - originColor.getRed(), 255 - originColor.getGreen(), 255 - originColor.getBlue());
+                    this.currentIt.setRGB(x, y, replacementColor.getRGB());
                 }
             }
         }
