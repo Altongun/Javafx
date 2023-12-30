@@ -1,16 +1,21 @@
 package com.example.demo3;
 
+import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Slider;
+import javafx.scene.image.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
+import java.util.Arrays;
 
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 
 public class ImageWorker {
@@ -161,7 +166,91 @@ public class ImageWorker {
     }
 
     private void treshold() {
-
+        Stage tresholdStage = new Stage();
+        ImageView editedImage = new ImageView();
+        editedImage.setPreserveRatio(true);
+        editedImage.setFitWidth(300);
+        editedImage.setFitHeight(170);
+        ImageView imgHost = new ImageView();
+        if(this.currentImg) {
+            imgHost.setImage(toFXImage(this.currentIt));
+            editedImage.setImage(toFXImage(this.currentIt));
+        }else{
+            imgHost.setImage(toFXImage(this.stepback));
+            editedImage.setImage(toFXImage(this.stepback));
+        }
+        Slider slider = new Slider(0,255,0);
+        slider.setBlockIncrement(1);
+        Label currVal = new Label("0");
+        Button accept = new Button("Done");
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                slider.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            editedImage.setImage(previewTreshold(imgHost, newValue.intValue()));
+            currVal.setText(newValue.toString());
+        });
+        accept.setOnAction(event -> {
+            applyTreshold(editedImage);
+            accept.getScene().getWindow().hide();
+        });
+        VBox start = new VBox();
+        start.getChildren().addAll(editedImage, slider, currVal, accept);
+        tresholdStage.setTitle("Treshold filter");
+        Scene scene = new Scene(start, 300,230);
+        tresholdStage.setScene(scene);
+        tresholdStage.show();
+    }
+    private Image previewTreshold(ImageView imageView, int treshold){
+        Image imgToEdit = imageView.getImage();
+        BufferedImage result = new BufferedImage((int) imgToEdit.getWidth(), (int) imgToEdit.getHeight(), BufferedImage.TYPE_INT_RGB);
+        PixelReader reader = imgToEdit.getPixelReader();
+        for (int x = 0; x < imgToEdit.getWidth(); x++) {
+            for (int y = 0; y < imgToEdit.getHeight(); y++) {
+                javafx.scene.paint.Color originalColor = reader.getColor(x,y);
+                int currentB = (int) Math.floor(255 * originalColor.getBlue());
+                int currentG = (int) Math.floor(255 * originalColor.getGreen());
+                int currentR = (int) Math.floor(255 * originalColor.getRed());
+                Color white = new Color(255,255,255);
+                Color black = new Color(0,0,0);
+                int[] theThreeColors = {currentB, currentG, currentR};
+                Arrays.sort(theThreeColors);
+                if(theThreeColors[2] > treshold){
+                    result.setRGB(x,y,white.getRGB());
+                }else{
+                    result.setRGB(x,y,black.getRGB());
+                }
+            }
+        }
+        return toFXImage(result);
+    }
+    private void applyTreshold(ImageView imgToApply){
+        Image imgToEdit = imgToApply.getImage();
+        BufferedImage result = new BufferedImage((int) imgToEdit.getWidth(), (int) imgToEdit.getHeight(), BufferedImage.TYPE_INT_RGB);
+        PixelReader reader = imgToEdit.getPixelReader();
+        for (int x = 0; x < imgToEdit.getWidth(); x++) {
+            for (int y = 0; y < imgToEdit.getHeight(); y++) {
+                javafx.scene.paint.Color originalColor = reader.getColor(x,y);
+                int currentB = (int) Math.floor(255 * originalColor.getBlue());
+                int currentG = (int) Math.floor(255 * originalColor.getGreen());
+                int currentR = (int) Math.floor(255 * originalColor.getRed());
+                Color setter = new Color(currentR, currentG, currentB);
+                result.setRGB(x,y,setter.getRGB());
+            }
+        }
+        if(this.currentImg){
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                }
+            }
+            this.currentIt = result;
+        }else{
+            this.currentIt = result;
+        }
+        this.imgView.setImage(toFXImage(this.currentIt));
+        this.modifiedRadio.fire();
     }
 
     private void negative() {
