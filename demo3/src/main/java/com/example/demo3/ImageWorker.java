@@ -428,7 +428,69 @@ public class ImageWorker {
         this.modifiedRadio.fire();
     }
 
-    private void pixelizer() {
+    private void pixelizer() { // toto asi proste prepisu z pdfka
+        Stage pixeliserStage = new Stage();
+        Slider slider = new Slider(0,100,1);
+        slider.setBlockIncrement(1);
+        Label currVal = new Label("0");
+        Button accept = new Button("Done");
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                slider.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            currVal.setText(newValue.toString());
+        });
+        accept.setOnAction(event -> {
+            int pixeliserValue = (int)slider.getValue();
+            applyFilter(pixeliserValue);
+            accept.getScene().getWindow().hide();
+        });
+        VBox start = new VBox();
+        start.getChildren().addAll(slider, currVal, accept);
+        pixeliserStage.setTitle("Pixeliser filter");
+        Scene scene = new Scene(start, 300,230);
+        pixeliserStage.setScene(scene);
+        pixeliserStage.show();
+
+    }
+    private void applyFilter(int intensity){
+        BufferedImage result = new BufferedImage(this.currentIt.getWidth(), this.currentIt.getHeight(), BufferedImage.TYPE_INT_RGB);
+        if (this.currentImg) {
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                }
+            }
+            for (int x = 0; x < this.currentIt.getWidth();x = x + intensity * 2){
+                for (int y = 0; y < this.currentIt.getHeight();y = y + intensity * 2){
+                    for (int a = x - intensity; a < x + intensity; a++){
+                        for (int b = y - intensity; b < y + intensity; b++){
+                            int getA = Math.min(this.currentIt.getWidth()-1, Math.max(0, a));
+                            int getB = Math.min(this.currentIt.getHeight()-1, Math.max(0, b));
+                            Color c = new Color(this.currentIt.getRGB(x, y));
+                            result.setRGB(getA, getB, c.getRGB());
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int x = 0; x < this.stepback.getWidth();x = x + intensity * 2){
+                for (int y = 0; y < this.stepback.getHeight();y = y + intensity * 2){
+                    for (int a = x - intensity; a < x + intensity; a++){
+                        for (int b = y - intensity; b < y + intensity; b++){
+                            int getA = Math.min(this.stepback.getWidth()-1, Math.max(0, a));
+                            int getB = Math.min(this.stepback.getHeight()-1, Math.max(0, b));
+                            Color c = new Color(this.stepback.getRGB(x, y));
+                            result.setRGB(getA, getB, c.getRGB());
+                        }
+                    }
+                }
+            }
+        }
+        this.currentIt = result;
+        this.imgView.setImage(toFXImage(this.currentIt));
+        this.modifiedRadio.fire();
     }
 
     private void identity() {
