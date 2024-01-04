@@ -1,8 +1,9 @@
 package com.example.demo3;
 
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
 
 import javax.imageio.ImageIO;
@@ -14,8 +15,6 @@ import java.util.Arrays;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 
 
 public class ImageWorker {
@@ -108,6 +107,155 @@ public class ImageWorker {
     }
 
     private void colorizer() {
+        Stage colorizerStage = new Stage();
+        ImageView editedImage = new ImageView();
+        editedImage.setPreserveRatio(true);
+        editedImage.setFitWidth(300);
+        editedImage.setFitHeight(170);
+        ImageView imgHost = new ImageView();
+        if(this.currentImg) {
+            imgHost.setImage(toFXImage(this.currentIt));
+            editedImage.setImage(toFXImage(this.currentIt));
+        }else{
+            imgHost.setImage(toFXImage(this.stepback));
+            editedImage.setImage(toFXImage(this.stepback));
+        }
+        Slider sliderR = new Slider(-255,255,0);
+        Slider sliderG = new Slider(-255, 255, 0);
+        Slider sliderB = new Slider(-255, 255, 0);
+        sliderR.setBlockIncrement(1);
+        sliderG.setBlockIncrement(1);
+        sliderB.setBlockIncrement(1);
+        Label currVal = new Label("R: 0, G: 0, B: 0");
+        Button accept = new Button("Done");
+        CheckBox loopOver = new CheckBox("Loop over max/min values?");
+        sliderR.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                sliderR.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            int offsetIntR = newValue.intValue();
+            int offsetIntG = (int) sliderG.getValue();
+            int offsetIntB = (int) sliderB.getValue();
+            editedImage.setImage(previewColorize(imgHost, new int[]{offsetIntR, offsetIntG, offsetIntB}, loopOver.isSelected()));
+            currVal.setText("R: " + offsetIntR + ", G: " + offsetIntG + ", B: " + offsetIntB);
+        });
+        sliderG.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                sliderG.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            int offsetIntR = (int) sliderR.getValue();
+            int offsetIntG = newValue.intValue();
+            int offsetIntB = (int) sliderB.getValue();
+            editedImage.setImage(previewColorize(imgHost, new int[]{offsetIntR, offsetIntG, offsetIntB}, loopOver.isSelected()));
+            currVal.setText("R: " + offsetIntR + ", G: " + offsetIntG + ", B: " + offsetIntB);
+        });
+        sliderB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                sliderB.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            int offsetIntR = (int) sliderR.getValue();
+            int offsetIntG = (int) sliderG.getValue();
+            int offsetIntB = newValue.intValue();
+            editedImage.setImage(previewColorize(imgHost, new int[]{offsetIntR, offsetIntG, offsetIntB}, loopOver.isSelected()));
+            currVal.setText("R: " + offsetIntR + ", G: " + offsetIntG + ", B: " + offsetIntB);
+        });
+        accept.setOnAction(event -> {
+            currVal.getText();
+            applyColorize(editedImage);
+            accept.getScene().getWindow().hide();
+        });
+        loopOver.setOnAction(event -> editedImage.setImage(previewColorize(imgHost, new int[]{(int) sliderR.getValue(), (int) sliderG.getValue(), (int) sliderB.getValue()}, loopOver.isSelected())));
+        VBox start = new VBox();
+        start.getChildren().addAll(editedImage, sliderR, sliderG, sliderB, currVal, loopOver, accept);
+        colorizerStage.setTitle("Colorize filter");
+        Scene scene = new Scene(start, 300,275);
+        colorizerStage.setScene(scene);
+        colorizerStage.show();
+    }
+
+    private Image previewColorize(ImageView imageView, int[] adjustments, boolean loopOver){
+        Image imgToEdit = imageView.getImage();
+        BufferedImage result = new BufferedImage((int) imgToEdit.getWidth(), (int) imgToEdit.getHeight(), BufferedImage.TYPE_INT_RGB);
+        PixelReader pr = imgToEdit.getPixelReader();
+        for (int x = 0; x < imgToEdit.getWidth(); x++) {
+            for (int y = 0; y < imgToEdit.getHeight(); y++) {
+                javafx.scene.paint.Color originalColor = pr.getColor(x, y);
+                int currentR = (int) Math.floor(255 * originalColor.getRed());
+                int currentG = (int) Math.floor(255 * originalColor.getGreen());
+                int currentB = (int) Math.floor(255 * originalColor.getBlue());
+                int correctedR = currentR + adjustments[0];
+                int correctedG = currentG + adjustments[1];
+                int correctedB = currentB + adjustments[2];
+                if(loopOver) {
+                    if (correctedR < 0) {
+                        correctedR = 255 + correctedR;
+                    }else if(255 < correctedR){
+                        correctedR = correctedR - 255;
+                    }
+                    if (correctedG < 0) {
+                        correctedG = 255 + correctedG;
+                    }else if(255 < correctedG){
+                        correctedG = correctedG - 255;
+                    }
+                    if (correctedB < 0) {
+                        correctedB = 255 + correctedB;
+                    }else if(255 < correctedB){
+                        correctedB = correctedB - 255;
+                    }
+                }else{
+                    if (correctedR < 0) {
+                        correctedR = 0;
+                    }else if(255 < correctedR){
+                        correctedR = 255;
+                    }
+                    if (correctedG < 0) {
+                        correctedG = 0;
+                    }else if(255 < correctedG){
+                        correctedG = 255;
+                    }
+                    if (correctedB < 0) {
+                        correctedB = 0;
+                    }else if(255 < correctedB){
+                        correctedB = 255;
+                    }
+                }
+                Color setterColor = new Color(correctedR, correctedG, correctedB);
+                result.setRGB(x, y, setterColor.getRGB());
+            }
+        }
+
+        return toFXImage(result);
+    }
+
+    private void applyColorize(ImageView imageView){
+        Image imgToEdit = imageView.getImage();
+        BufferedImage result = new BufferedImage((int) imgToEdit.getWidth(), (int) imgToEdit.getHeight(), BufferedImage.TYPE_INT_RGB);
+        PixelReader reader = imgToEdit.getPixelReader();
+        for (int x = 0; x < imgToEdit.getWidth(); x++) {
+            for (int y = 0; y < imgToEdit.getHeight(); y++) {
+                javafx.scene.paint.Color originalColor = reader.getColor(x,y);
+                int currentB = (int) Math.floor(255 * originalColor.getBlue());
+                int currentG = (int) Math.floor(255 * originalColor.getGreen());
+                int currentR = (int) Math.floor(255 * originalColor.getRed());
+                Color setter = new Color(currentR, currentG, currentB);
+                result.setRGB(x,y,setter.getRGB());
+            }
+        }
+        if(this.currentImg){
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                }
+            }
+            this.currentIt = result;
+        }else{
+            this.currentIt = result;
+        }
+        this.imgView.setImage(toFXImage(this.currentIt));
+        this.modifiedRadio.fire();
     }
 
     private void vinette() {
@@ -280,7 +428,69 @@ public class ImageWorker {
         this.modifiedRadio.fire();
     }
 
-    private void pixelizer() {
+    private void pixelizer() { // toto asi proste prepisu z pdfka
+        Stage pixeliserStage = new Stage();
+        Slider slider = new Slider(0,100,1);
+        slider.setBlockIncrement(1);
+        Label currVal = new Label("0");
+        Button accept = new Button("Done");
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(Double.compare(Math.floor((double)newValue), (double) newValue) != 0){
+                slider.setValue(Math.floor((double)newValue));
+                newValue = Math.floor((double)newValue);
+            }
+            currVal.setText(newValue.toString());
+        });
+        accept.setOnAction(event -> {
+            int pixeliserValue = (int)slider.getValue();
+            applyFilter(pixeliserValue);
+            accept.getScene().getWindow().hide();
+        });
+        VBox start = new VBox();
+        start.getChildren().addAll(slider, currVal, accept);
+        pixeliserStage.setTitle("Pixeliser filter");
+        Scene scene = new Scene(start, 300,230);
+        pixeliserStage.setScene(scene);
+        pixeliserStage.show();
+
+    }
+    private void applyFilter(int intensity){
+        BufferedImage result = new BufferedImage(this.currentIt.getWidth(), this.currentIt.getHeight(), BufferedImage.TYPE_INT_RGB);
+        if (this.currentImg) {
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    this.stepback.setRGB(x, y, (this.currentIt.getRGB(x, y)));
+                }
+            }
+            for (int x = 0; x < this.currentIt.getWidth();x = x + intensity * 2){
+                for (int y = 0; y < this.currentIt.getHeight();y = y + intensity * 2){
+                    for (int a = x - intensity; a < x + intensity; a++){
+                        for (int b = y - intensity; b < y + intensity; b++){
+                            int getA = Math.min(this.currentIt.getWidth()-1, Math.max(0, a));
+                            int getB = Math.min(this.currentIt.getHeight()-1, Math.max(0, b));
+                            Color c = new Color(this.currentIt.getRGB(x, y));
+                            result.setRGB(getA, getB, c.getRGB());
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int x = 0; x < this.stepback.getWidth();x = x + intensity * 2){
+                for (int y = 0; y < this.stepback.getHeight();y = y + intensity * 2){
+                    for (int a = x - intensity; a < x + intensity; a++){
+                        for (int b = y - intensity; b < y + intensity; b++){
+                            int getA = Math.min(this.stepback.getWidth()-1, Math.max(0, a));
+                            int getB = Math.min(this.stepback.getHeight()-1, Math.max(0, b));
+                            Color c = new Color(this.stepback.getRGB(x, y));
+                            result.setRGB(getA, getB, c.getRGB());
+                        }
+                    }
+                }
+            }
+        }
+        this.currentIt = result;
+        this.imgView.setImage(toFXImage(this.currentIt));
+        this.modifiedRadio.fire();
     }
 
     private void identity() {
