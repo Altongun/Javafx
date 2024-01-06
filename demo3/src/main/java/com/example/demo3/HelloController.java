@@ -7,6 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -97,8 +101,6 @@ public class HelloController {
         } catch (Exception ignored) {}
     }
 
-
-
     @FXML
     protected void negativeFilter(){
         imageww.filterHandler(0);
@@ -163,6 +165,32 @@ public class HelloController {
     @FXML
     protected void showCurrent(){
         imageww.whatToShow(true);
+    }
+    @FXML
+    public void copyFromClipboard(){
+        Clipboard clippy = Clipboard.getSystemClipboard();
+        if(clippy.hasImage()){
+            this.imageww = new ImageWorker(clippy.getImage(), mainimage, originalRadio, moddedRadio);
+            saveImg.setDisable(false);
+            restoreButton.setDisable(false);
+            originalRadio.setDisable(false);
+            moddedRadio.setDisable(false);
+            filterNeg.setDisable(false);
+            filterBW.setDisable(false);
+            filterCol.setDisable(false);
+            filterId.setDisable(false);
+            filterOld.setDisable(false);
+            filterPix.setDisable(false);
+            filterTresh.setDisable(false);
+            filterVin.setDisable(false);
+        }
+    }
+
+
+    @FXML
+    public void initCopyListener() {
+        mainimage.getScene().getAccelerators().put(new KeyCodeCombination(
+                KeyCode.V, KeyCombination.CONTROL_DOWN), this::copyFromClipboard);
     }
 }
 
