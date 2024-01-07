@@ -47,6 +47,7 @@ public class ImageWorker {
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
         this.originalRadio.fire();
+        this.imgView.setImage(toFXImage(this.stepback));
     }
     public ImageWorker(ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio){
         this.currentIt = genImg();
@@ -64,6 +65,7 @@ public class ImageWorker {
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
         this.originalRadio.fire();
+        this.imgView.setImage(toFXImage(this.stepback));
     }
     public ImageWorker(javafx.scene.image.Image pastedImg, ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio){
         BufferedImage result1 = new BufferedImage((int) pastedImg.getWidth(), (int) pastedImg.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -95,6 +97,7 @@ public class ImageWorker {
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
         this.originalRadio.fire();
+        this.imgView.setImage(toFXImage(this.stepback));
     }
     private BufferedImage genImg() {
         BufferedImage blankCanvas = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
@@ -587,5 +590,82 @@ public class ImageWorker {
         }
 
         return new ImageView(wr).getImage();
+    }
+
+    public void applyMatrix(int[][] matrix) {
+        if(this.currentImg){
+            BufferedImage result = new BufferedImage(this.currentIt.getWidth(), this.currentIt.getHeight(), this.currentIt.getType());
+            for (int x = 0; x < this.currentIt.getWidth(); x++) {
+                for (int y = 0; y < this.currentIt.getHeight(); y++) {
+                    int r = 0;
+                    int g = 0;
+                    int b = 0;
+                    for (int matrixX = 0; matrixX < matrix.length; matrixX++) {
+                        for (int matrixY = 0; matrixY < matrix[0].length; matrixY++) {
+                            if(matrix[matrixX][matrixY] != 0){
+                                int workerPixelX = x+matrixX-matrix.length/2;
+                                int workerPixelY = y+matrixY-matrix[0].length/2;
+                                if (workerPixelX < 0) workerPixelX = 0;
+                                if (workerPixelY < 0) workerPixelY = 0;
+                                if (workerPixelX > this.currentIt.getWidth()) workerPixelX = this.currentIt.getWidth()-1;
+                                if (workerPixelY > this.currentIt.getHeight()) workerPixelY = this.currentIt.getHeight()-1;
+                                Color originalCol = new Color(this.currentIt.getRGB(workerPixelX, workerPixelY));
+                                r += originalCol.getRed()*matrix[matrixX][matrixY];
+                                g += originalCol.getGreen()*matrix[matrixX][matrixY];
+                                b += originalCol.getBlue()*matrix[matrixX][matrixY];
+                            }
+                        }
+                    }
+                    if (r < 0) r = 0;
+                    if (g < 0) g = 0;
+                    if (b < 0) b = 0;
+                    if (r > 255) r = 255;
+                    if (g > 255) g = 255;
+                    if (b > 255) b = 255;
+                    Color resultCol = new Color(r,g,b);
+                    result.setRGB(x,y,resultCol.getRGB());
+                }
+            }
+            this.stepback = this.currentIt;
+            this.currentIt = result;
+            this.imgView.setImage(toFXImage(this.currentIt));
+            this.modifiedRadio.fire();
+        }else{
+            BufferedImage result = new BufferedImage(this.stepback.getWidth(), this.stepback.getHeight(), this.stepback.getType());
+            for (int x = 0; x < this.stepback.getWidth()-1; x++) {
+                for (int y = 0; y < this.stepback.getHeight()-1; y++) {
+                    int r = 0;
+                    int g = 0;
+                    int b = 0;
+                    for (int matrixX = 0; matrixX < matrix.length; matrixX++) {
+                        for (int matrixY = 0; matrixY < matrix[0].length; matrixY++) {
+                            if(matrix[matrixX][matrixY] != 0){
+                                int workerPixelX = x+matrixX-matrix.length/2;
+                                int workerPixelY = y+matrixY-matrix[0].length/2;
+                                if (workerPixelX < 0){ workerPixelX = 0;}
+                                if (workerPixelY < 0){ workerPixelY = 0;}
+                                if (workerPixelX > this.stepback.getWidth()){ workerPixelX = this.stepback.getWidth()-1;}
+                                if (workerPixelY > this.stepback.getHeight()){ workerPixelY = this.stepback.getHeight()-1;}
+                                Color originalCol = new Color(this.stepback.getRGB(workerPixelX, workerPixelY));
+                                r += originalCol.getRed()*matrix[matrixX][matrixY];
+                                g += originalCol.getGreen()*matrix[matrixX][matrixY];
+                                b += originalCol.getBlue()*matrix[matrixX][matrixY];
+                            }
+                        }
+                    }
+                    if (r < 0) r = 0;
+                    if (g < 0) g = 0;
+                    if (b < 0) b = 0;
+                    if (r > 255) r = 255;
+                    if (g > 255) g = 255;
+                    if (b > 255) b = 255;
+                    Color resultCol = new Color(r,g,b);
+                    result.setRGB(x,y,resultCol.getRGB());
+                }
+            }
+            this.currentIt = result;
+            this.imgView.setImage(toFXImage(this.currentIt));
+            this.modifiedRadio.fire();
+        }
     }
 }
