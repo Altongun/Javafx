@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 public class HelloController {
@@ -135,15 +136,13 @@ public class HelloController {
 
 
     @FXML
-    protected void aboutPopup() {
+    protected void aboutPopup() throws IOException {
         FXMLLoader aboutScreenFXML = new FXMLLoader(HelloApplication.class.getResource("about-view.fxml"));
         Stage popupStage = new Stage();
         popupStage.setTitle("About");
-        try{
-            popupStage.setScene(new Scene(aboutScreenFXML.load(), 300, 150));
-        }catch (Exception ignored){
 
-        }
+            popupStage.setScene(new Scene(aboutScreenFXML.load(), 300, 150));
+
         popupStage.show();
     }
 

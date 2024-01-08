@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Random;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
@@ -64,21 +65,91 @@ public class ImageWorker {
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
     }
+
+
+
     private BufferedImage genImg() {
+        // Vytvoření prázdného plátna s určenou šířkou a výškou
         BufferedImage blankCanvas = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < blankCanvas.getWidth(); x++) {
-            for (int y = 0; y < blankCanvas.getHeight(); y++) {
-                if (y < 200){
-                    blankCanvas.setRGB(x, y, 255-(x/4));
-                }else if (y<400){
-                    blankCanvas.setRGB(x, y, (int) (Math.floor(255-(float)(x/4))*256));
-                }else{
-                    blankCanvas.setRGB(x,y, (255-(x/4))*65536);
-                }
+
+        // Grafický kontext pro kreslení na plátno
+        Graphics2D g2d = blankCanvas.createGraphics();
+        Random random = new Random();
+
+        // Náhodné vybrání typu tvaru (0 pro kruh, 1 pro obdélník, 2 pro mnohoúhelník)
+        int shapeType = random.nextInt(7);
+
+        // Nastavení náhodné barvy pozadí
+        int backgroundRed = random.nextInt(256);
+        int backgroundGreen = random.nextInt(256);
+        int backgroundBlue = random.nextInt(256);
+        Color backgroundColor = new Color(backgroundRed, backgroundGreen, backgroundBlue);
+
+        // Nastavení barvy pozadí a vyplnění celého plátna
+        g2d.setBackground(backgroundColor);
+        g2d.clearRect(0, 0, blankCanvas.getWidth(), blankCanvas.getHeight());
+
+        // Nastavení náhodné barvy a parametrů pro kruh, obdélník nebo mnohoúhelník
+        int shapeRed = random.nextInt(256);
+        int shapeGreen = random.nextInt(256);
+        int shapeBlue = random.nextInt(256);
+        Color shapeColor = new Color(shapeRed, shapeGreen, shapeBlue);
+
+        int x = 50; // x-ová souřadnice začátku tvaru
+        int y = 50; // y-ová souřadnice začátku tvaru
+        int width = 700; // šířka tvaru
+        int height = 500; // výška tvaru
+
+        if (shapeType == 0) {
+            // Kruh
+            g2d.setColor(shapeColor);
+            g2d.fillOval(x, y, width, height);
+        } else if (shapeType == 1) {
+            // Obdélník
+            g2d.setColor(shapeColor);
+            g2d.fillRect(x, y, width, height);
+        } else {
+            // Mnohoúhelník
+            int sides = random.nextInt(6) + 3; // Minimálně 3 strany, maximálně 8
+            int[] xPoints = new int[sides];
+            int[] yPoints = new int[sides];
+
+            for (int i = 0; i < sides; i++) {
+                // Náhodně generujeme vrcholy mnohoúhelníku
+                xPoints[i] = random.nextInt(width) + x;
+                yPoints[i] = random.nextInt(height) + y;
             }
+
+            // Kreslení mnohoúhelníku
+            g2d.setColor(shapeColor);
+            g2d.fillPolygon(new Polygon(xPoints, yPoints, sides));
         }
+
+        // Generace proužků
+        for (int i = 0; i < 5; i++) {
+            // Náhodná barva pro pruh
+            int stripeRed = random.nextInt(256);
+            int stripeGreen = random.nextInt(256);
+            int stripeBlue = random.nextInt(256);
+            Color stripeColor = new Color(stripeRed, stripeGreen, stripeBlue);
+            g2d.setColor(stripeColor);
+
+            // Náhodná pozice a šířka pruhu
+            int stripeX = random.nextInt(blankCanvas.getWidth());
+            int stripeY = random.nextInt(blankCanvas.getHeight());
+            int stripeWidth = random.nextInt(20) + 20;
+
+            // Kreslení pruhu
+            g2d.fillRect(stripeX, stripeY, stripeWidth, blankCanvas.getHeight());
+        }
+
+        // Uvolnění zdrojů Graphics2D
+        g2d.dispose();
+
+        // Vrácení vygenerovaného obrázku
         return blankCanvas;
     }
+
 
     public void whatToShow(boolean currentImg){
         this.currentImg = currentImg;
