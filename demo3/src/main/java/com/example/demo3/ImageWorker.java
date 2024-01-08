@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -24,17 +25,16 @@ public class ImageWorker {
     BufferedImage stepback;
     ImageView imgView;
     RadioButton originalRadio;
+    Random random = new Random();
     boolean currentImg;
 
 
 
-    public ImageWorker(File origin, ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio){
-        try {
+    public ImageWorker(File origin, ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio) throws IOException {
             this.currentIt = ImageIO.read(origin);
             this.stepback = ImageIO.read(origin);
-        }catch (Exception e){
-            System.out.print("uhhh..." + e);
-        }
+
+
         this.imgView = mainimgview;
         this.imgView.setImage(toFXImage(this.currentIt));
 
@@ -92,9 +92,9 @@ public class ImageWorker {
         this.imgView.setFitHeight(this.imgView.getScene().getHeight()/2.0f);
         this.imgView.setFitWidth(this.imgView.getScene().getWidth()/2.0f); //první setup výšky a šířky
         this.imgView.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.imgView.setFitHeight(newVal.floatValue()/2.0f));
-        this.imgView.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
-            this.imgView.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
-        });
+        this.imgView.getScene().widthProperty().addListener((obs, oldVal, newVal) ->
+            this.imgView.setFitWidth(newVal.floatValue()/2.0f) // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
+        );
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
         this.originalRadio.fire();
@@ -109,7 +109,6 @@ public class ImageWorker {
 
         // Grafický kontext pro kreslení na plátno
         Graphics2D g2d = blankCanvas.createGraphics();
-        Random random = new Random();
 
         // Náhodné vybrání typu tvaru (0 pro kruh, 1 pro obdélník, 2 pro mnohoúhelník)
         int shapeType = random.nextInt(7);
@@ -207,8 +206,6 @@ public class ImageWorker {
             case 5 -> blackAndW();
             case 6 -> vinette();
             case 7 -> colorizer();
-            default -> {
-            }
         }
 
     }

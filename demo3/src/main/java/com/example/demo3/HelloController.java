@@ -62,7 +62,7 @@ public class HelloController {
         enableEditSuite();
     }
     @FXML
-    protected void loadPicture(){
+    protected void loadPicture() {
         FileChooser filechooser = new FileChooser();
         filechooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Supported Image Formats", "*.jpg", "*.png", "*.bmp", "*.dib")
@@ -71,7 +71,11 @@ public class HelloController {
         Optional<File> fileOptional = Optional.ofNullable(filechooser.showOpenDialog(InsertImgF.getScene().getWindow()));
         fileOptional.ifPresent( // Grumbajzik on top
                 file -> {
-                    this.imageww = new ImageWorker(file, mainimage, originalRadio, moddedRadio);
+                    try {
+                        this.imageww = new ImageWorker(file, mainimage, originalRadio, moddedRadio);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     enableEditSuite();
                 });
     }
