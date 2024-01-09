@@ -138,11 +138,28 @@ public class ImageWorker {
             // Kruh
             g2d.setColor(shapeColor);
             g2d.fillOval(x, y, width, height);
-        } else if (shapeType == 1) {
+        }
+        else if (shapeType == 1) {
             // Obdélník
             g2d.setColor(shapeColor);
             g2d.fillRect(x, y, width, height);
-        } else {
+        }
+        else if(shapeType == 3){
+            //rgb pruhy
+            for (int xPixel = 0; xPixel < blankCanvas.getWidth(); xPixel++) {
+                for (int yPixel = 0; yPixel < blankCanvas.getHeight(); yPixel++) {
+                    if (yPixel < 200){
+                        blankCanvas.setRGB(xPixel, yPixel, 255-(x/4));
+                    }else if (yPixel<400){
+                        blankCanvas.setRGB(xPixel, yPixel, (int) (Math.floor(255-(float)(xPixel/4))*256));
+                    }else{
+                        blankCanvas.setRGB(xPixel,yPixel, (255-(x/4))*65536);
+                    }
+                }
+            }
+            return blankCanvas;
+        }
+        else {
             // Mnohoúhelník
             int sides = random.nextInt(6) + 3; // Minimálně 3 strany, maximálně 8
             int[] xPoints = new int[sides];
