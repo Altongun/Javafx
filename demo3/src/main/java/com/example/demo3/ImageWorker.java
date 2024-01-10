@@ -8,6 +8,8 @@ import javafx.scene.image.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
