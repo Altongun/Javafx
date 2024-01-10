@@ -52,7 +52,10 @@ public class ImageWorker {
     }
     public ImageWorker(ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio){
         this.currentIt = genImg();
-        this.stepback = genImg();
+        ColorModel cm = this.currentIt.getColorModel();
+        boolean alphaMulti = cm.isAlphaPremultiplied();
+        WritableRaster raster = this.currentIt.copyData(null);
+        this.stepback = new BufferedImage(cm, raster, alphaMulti, null);
         this.imgView = mainimgview;
         this.imgView.setImage(toFXImage(this.currentIt));
 
