@@ -81,6 +81,10 @@
            <Menu mnemonicParsing="false" text="Exit">
                <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
            </Menu>
+           <Menu mnemonicParsing="false" text="help">
+               <MenuItem  mnemonicParsing="false" onAction="#runPresentation" text="Presentation" />
+               <MenuItem mnemonicParsing="false" onAction="#runDocumentation" text="Documentation" />
+           </Menu>
        </MenuBar>
    </top>
    <center>

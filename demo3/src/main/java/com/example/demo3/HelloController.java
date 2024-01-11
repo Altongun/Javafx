@@ -4,6 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyCode;
@@ -15,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -61,6 +66,35 @@ public class HelloController {
         this.imageww = new ImageWorker(mainimage, originalRadio, moddedRadio);
         enableEditSuite();
     }
+
+    @FXML
+    public void runPresentation() throws IOException {
+
+        File soubor = new File("demo3/src/main/resources/Documentation/prezentace.pptx");
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+                desktop.open(soubor);
+            }
+        }
+    }
+
+    @FXML
+    public void runDocumentation() throws IOException {
+
+        File soubor = new File("demo3/src/main/resources/Documentation/dokumentace.docx");
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+                desktop.open(soubor);
+            }
+        }
+    }
+
     @FXML
     protected void loadPicture() {
         FileChooser filechooser = new FileChooser();

@@ -33,19 +33,19 @@ public class ImageWorker {
 
 
     public ImageWorker(File origin, ImageView mainimgview, RadioButton originalRadio, RadioButton modifiedRadio) throws IOException {
-            this.currentIt = ImageIO.read(origin);
-            this.stepback = ImageIO.read(origin);
+        this.currentIt = ImageIO.read(origin);
+        this.stepback = ImageIO.read(origin);
 
 
         this.imgView = mainimgview;
         this.imgView.setImage(toFXImage(this.currentIt));
 
         this.imgView.setPreserveRatio(true);
-        this.imgView.setFitHeight(this.imgView.getScene().getHeight()/2.0f);
-        this.imgView.setFitWidth(this.imgView.getScene().getWidth()/2.0f); //první setup výšky a šířky
-        this.imgView.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.imgView.setFitHeight(newVal.floatValue()/2.0f));
+        this.imgView.setFitHeight(this.imgView.getScene().getHeight()/1.4f);
+        this.imgView.setFitWidth(this.imgView.getScene().getWidth()/1.4f); //první setup výšky a šířky
+        this.imgView.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.imgView.setFitHeight(newVal.floatValue()/1.4f));
         this.imgView.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
-            this.imgView.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
+            this.imgView.setFitWidth(newVal.floatValue()/1.4f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
         });
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
@@ -62,11 +62,11 @@ public class ImageWorker {
         this.imgView.setImage(toFXImage(this.currentIt));
 
         this.imgView.setPreserveRatio(true);
-        this.imgView.setFitHeight(this.imgView.getScene().getHeight()/2.0f);
-        this.imgView.setFitWidth(this.imgView.getScene().getWidth()/2.0f); //první setup výšky a šířky
-        this.imgView.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.imgView.setFitHeight(newVal.floatValue()/2.0f));
+        this.imgView.setFitHeight(this.imgView.getScene().getHeight()/1.4f);
+        this.imgView.setFitWidth(this.imgView.getScene().getWidth()/1.4f); //první setup výšky a šířky
+        this.imgView.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.imgView.setFitHeight(newVal.floatValue()/1.4f));
         this.imgView.getScene().widthProperty().addListener((obs, oldVal, newVal) -> {
-            this.imgView.setFitWidth(newVal.floatValue()/2.0f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
+            this.imgView.setFitWidth(newVal.floatValue()/1.4f); // odposluchače na změnu výšky a šířky, upraví výšku/šířku obrázku
         });
         this.originalRadio = originalRadio;
         this.modifiedRadio = modifiedRadio;
